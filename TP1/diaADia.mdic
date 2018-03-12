@@ -11,7 +11,7 @@ ferramenta: ferramenta de carpinteiro | ferramenta agrícula
 
 
 #--------------------------------------------------------------------- 
-%THE :has
+%THE:has
 
 cozinha: electrodoméstico | banca | utensílio de cozinha | banco de cozinha 
 

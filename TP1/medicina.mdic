@@ -3,7 +3,7 @@
 
 %dom : medicina
 
-%THE<profissão : bt : lida_com
+%THE:<profissão : bt : lida_com
 
 médico especialista : médico :
 médico : : doentes| doenças | fármacos
