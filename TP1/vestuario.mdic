@@ -12,13 +12,13 @@
 %inv:inst:iof
 
 #--------------------------------------------------------------------- 
-%THE: nt 
+%THE:nt 
 
 vestuário: roupa | calçado
 roupa: roupa feminina | roupa de cama
 
 #--------------------------------------------------------------------- 
-%THE: inst 
+%THE:inst 
 
 ##Roupa
 

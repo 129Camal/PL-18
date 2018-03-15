@@ -1,7 +1,7 @@
 
+%dom :medicina
 %inv: lida_com: profissao_associada
 
-%dom : medicina
 
 %THE<profissão : bt : lida_com
 
