@@ -2,7 +2,7 @@
 
 #---( Profissão : profissãoEspecífica)--------------------------------
 
-%THE:<profissão> : nt<profissão>
+%THE<profissão : nt<profissão
 
 professor: professor do ensino superior politécnico| professor do ensino superior universitário| professor do ensino básico| professor do ensino secundário
 
@@ -13,7 +13,7 @@ cientista: arqueólogo| astrofísico| astrónomo| biofísico| biólogo| botânic
 
 #----( loja : profissão : objecto )---------------------------------
 #
-%THE:<estabelecimento comercial>:tem_trabalhador<profissão>:lida_com
+%THE<estabelecimento comercial:tem_trabalhador<profissão:lida_com
 
 mercearia:merceeiro:
 barbearia:barbeiro:cabelo| barba
@@ -41,7 +41,7 @@ peixaria:peixeiro:peixe
 
 %%
 
-%THE:<profissão>:lida_com<profissão>)
+%THE<profissão:lida_com<profissão)
 
 aviador: avião
 maquinista: comboio
