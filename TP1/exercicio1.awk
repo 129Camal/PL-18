@@ -20,7 +20,8 @@ BEGIN{
 		if(match($1,/<(.*)/, n)){
 			mat = $1;
 			$1 = n[1];
-			print ("<p><b>Relação -> </b>" "<a href='" $0 ".html>" $0 "</a></p>") > path dominio[dom-1]".html";
+			sub(/</, "&lt", $0);
+			print ("<p><b>Relação -> </b>" "<a href='" $0 ".html'>" $0 "</a></p>") > path dominio[dom-1]".html";
 			if(rel != "")
 				print("</body> \n </html>") > path dominio[dom-1]rel".html" 
 			rel = $0
