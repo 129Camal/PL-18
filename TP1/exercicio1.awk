@@ -20,7 +20,7 @@ BEGIN{
 		if(match($1,/<(.*)/, n)){
 			mat = $1;
 			$1 = n[1];
-			sub(/</, "&lt", $0);
+			gsub(/</, "\\&lt;", $0);
 			print ("<p><b>Relação -> </b>" "<a href='" $0 ".html'>" $0 "</a></p>") > path dominio[dom-1]".html";
 			if(rel != "")
 				print("</body> \n </html>") > path dominio[dom-1]rel".html" 
@@ -34,14 +34,14 @@ BEGIN{
 
 		else{
 			$1 = "";
-			print ("<b>Relação -> </b>" "<a href='" dominio[dom-1] $0 ".html'>" $0 "</a>") > path dominio[dom-1]".html";
+			gsub(/</, "\\&lt;", $0);
+			print ("<p><b>Relação -> </b>" "<a href='" dominio[dom-1] $0".html'>" $0 "</p></a>") > path dominio[dom-1]".html";
 			if(rel != "")
 				print("</body> \n </html>") > path dominio[dom-1]rel".html" 	
 			rel = $0
 			print ("<html>\n\t<head>\n\t\t<meta charset='UTF-8'/>\n\t</head>\n\t<body>") >  path dominio[dom-1]rel".html";
 			print ("<a href='" dominio[dom-1]".html'> Back </a>") > path dominio[dom-1]rel".html";
-			print("\t<h2>" rel "</h2>\n") > path dominio[dom-1]rel".html";
-			print ("<p>  </p>") > path dominio[dom-1]".html";
+			print ("<p>\t<h2>" rel "</h2>\n</p>") > path dominio[dom-1]rel".html";
 			relacao = $0;
 		}
 
@@ -51,8 +51,7 @@ BEGIN{
 	if(match($1,/^%inv/)){
 		p = $1;
 		$1 = "";
-		print ("<b>Relação inversa -> </b>"$0) > path dominio[dom-1]".html";
-		print ("<p>  </p>") > path dominio[dom-1]".html";
+		print ("<p><b>Relação inversa -></b>" $2$3 "</p>") > path dominio[dom-1]".html";
 		$1 = p;
 	}
 
