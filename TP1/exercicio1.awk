@@ -7,7 +7,6 @@ BEGIN{
 	path  = "html/";
 	termo1 = "";
 }
-
 {
 	if(match($1,/^%dom/, d)){
 		dominio[dom] = $2;
@@ -66,7 +65,7 @@ BEGIN{
 		termo1 = $1;
 		print ("<html>\n\t<head>\n\t\t<meta charset='UTF-8'/>\n\t</head>\n\t<body>") >  path dominio[dom-1]$1rel".html";
 		print ("<a href='" dominio[dom-1]rel ".html'>Back</a>") > path dominio[dom-1]$1rel".html";
-		print ("<p> <a href='" dominio[dom-1]$1rel ".html'>" $1 "</a></p>") > path dominio[dom-1] rel".html";
+		print ("<p><a href='" dominio[dom-1]$1rel ".html'>" $1 "</a></p>") > path dominio[dom-1] rel".html";
 	}
 	#primeiro termo a aparecer
 	else if ($1 == ""){
@@ -76,20 +75,20 @@ BEGIN{
 	}
 
 	for(r=1; r<=NF; r++){
-		sub(/<[A-Za-z].+/, " ", ok[r]);
+		gsub(/<[A-Za-z].+/, " ", ok[r]);
 	}	
 		for(i=2; i <= NF; i++){
 			q = split($i, a, "|");
 			novo = $i;
-			sub(/^\s/, "", novo);
+			gsub(/^\s/, "", novo);
 			if(q == 1){
-				print ("<p><b>(</b>" $1 " , " ok[i-1] " ," "<a href='"dominio[dom-1] novo rel ".html'>" novo "</a><b>)</b></p>") > path dominio[dom-1] $1 rel".html";
+				print ("<p><b>(</b>" $1 " , " ok[i-1] " ," "<a href='"dominio[dom-1] novo rel ".html'>" novo "</a><b>)</b></p>") > path dominio[dom-1]$1rel".html";
 			}
 			if(q > 1){
 
 					for(j = 1; j <= q; j++){
 						nova = a[j];
-						sub(/^\s/,"", nova);
+						gsub(/^\s/,"", nova);
 						print ("<p><b>(</b>" $1 ", " ok[i-1] "," " <a href='"dominio[dom-1] nova rel".html'>" nova "</a>" "<b>)</b></p>") > path dominio[dom-1]$1rel".html";
 					}
 			}

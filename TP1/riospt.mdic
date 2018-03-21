@@ -1,4 +1,4 @@
-%dom: geografia
+%dom:geografia
 
 %inv:  nasce :   nascente_de  
 %inv:  desgua_em :    foz_de  
@@ -9,7 +9,7 @@
 # Rios PT
 #(rio:comprimento km(erro elevado):nascente:foz:in:é afluende de:passa em)
 
-%THE<rio:@comprimento:nasce_em<serra:desagua_em :in:afluente_de<rio:atravessa<localidade:
+%THE<rio:@comprimento:nasce_em<serra:desagua_em:in:afluente_de<rio:atravessa<localidade:
 
 ribeira da Peneda::::Parque Natural da Peneda Gerês::
 rio Adrão::serra da Peneda::Parque Natural da Peneda Gerês::
