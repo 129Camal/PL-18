@@ -19,11 +19,13 @@ BEGIN{
 		if(match($1,/<(.*)/, n)){
 			mat = $1;
 			$1 = n[1];
-			gsub(/</, "\\&lt;", $0);
-			print ("<p><b>Relação -> </b>" "<a href='" $0 ".html'>" $0 "</a></p>") > path dominio[dom-1]".html";
+			for(i=1; i<=NF; i++){
+			gsub(/<[A-Za-z].+/, " ", $i);
+			}
+			print ("<p><b>Relação -> </b>" "<a href='" dominio[dom-1] $0 ".html'>" $0 "</a></p>") > path dominio[dom-1]".html";
 			if(rel != "")
 				print("</body> \n </html>") > path dominio[dom-1]rel".html" 
-			rel = $0
+			rel = $0;
 			print ("<html>\n\t<head>\n\t\t<meta charset='UTF-8'/>\n\t</head>\n\t<body>") >  path dominio[dom-1]rel".html";
 			print ("<a href='" dominio[dom-1]".html'> Back </a>") > path dominio[dom-1]rel".html";
 			$1 = "";

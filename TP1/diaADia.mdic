@@ -1,7 +1,7 @@
 #--------------------------------------------------------------------- 
-%dom: dia a dia
+%dom:dia a dia
 
-%THE: nt
+%THE:nt
 
 dia a dia: cidade | cozinha | desporto |meio de transporte |ferramenta | escola
 dia a dia: roupa | família | jogo | mobília | loja
@@ -11,7 +11,7 @@ ferramenta: ferramenta de carpinteiro | ferramenta agrícula
 
 
 #--------------------------------------------------------------------- 
-%THE :has
+%THE:has
 
 cozinha: electrodoméstico | banca | utensílio de cozinha | banco de cozinha 
 
@@ -28,16 +28,16 @@ mobília: secretária | arquivador
 
 ## desporto
 
-%dom: desporto 
+%dom:desporto 
 
-%THE: nt
+%THE:nt
 
 desporto: andebol | futebol | atletismo | vela | golf | hóquei em patins
 desporto: basquetebol | ténis | ténis de mesa | voleibol | badminton
 desporto: natação | ciclismo | 
 
-%dom: ferramentas
-%THE: nt
+%dom:ferramentas
+%THE:nt
 
 ferramenta de carpinteiro: plaina | martelo | broca | verruma | chave de parafusos
 ferramenta de carpinteiro: chave de cruz | berbequim | trado | formão | goiva
@@ -46,8 +46,8 @@ ferramenta de carpinteiro: serra | serrote | alicate | alicate de pontas
 ferramenta agrícula: sachola | albião | pá | ancinho | sacho | carrinho de mão
 ferramenta agrícula: tesoura de poda | zaragatoa | gadanho | gadanha | machado
 
-%dom: cozinha
-%THE: inst
+%dom:cozinha
+%THE:inst
 
 electrodoméstico: fogão | frigorífico | micro-ondas | batedora | varinha-mágica
 electrodoméstico: rádio | televisão | aparelhagem | aquecedor | máquina de lavar
@@ -56,7 +56,7 @@ electrodoméstico: máquina de lavar louça | secador | ventoínha | aspirador
 utensílio de cozinha: cafeteira | tacho | certã | panela | talheres | copo | prato
 utensílio de cozinha: panela-de-pressão | travessa | escorredor | alguidar | bacia
 
-%dom: lojas e comércio
+%dom:lojas e comércio
 %THE: inst
 
 loja: mercearia | barbearia | papelaria | livraria | quiosque | loja de ferragens
@@ -64,7 +64,7 @@ loja: retrosaria | alfaiataria | pronto a vestir | loja de informática
 loja: loja dos 300 | café | restaurante | super-mercado | alfarrabista | drogaria
 loja: loja de electrodomésticos | reprografia | lavandaria
 
-%dom: família
+%dom:família
 
 %THE: inst
 parentesco: mãe | pai | irmão | filho | sobrinho | tio | avô | neto | bisavô | bisneto
@@ -137,7 +137,7 @@ pai adoptivo : Pflegeeltern : pl : foster-parents
 filho adoptivo : Pflegekind : n : foster-child
 
 
-%THE<parentesco : EN
+%THE<parentesco :EN
 
 família : family
 
@@ -153,8 +153,8 @@ avó : grandmother
 marido : husband
 esposa : wife 
 
-%dom: vida
-%THE : EN
+%dom:vida
+%THE :EN
 
 relacionamento : relationship
 
