@@ -19,27 +19,33 @@ BEGIN{
 		if(match($1,/<(.*)/, n)){
 			mat = $1;
 			$1 = n[1];
+
 			for(i=1; i<=NF; i++){
-			gsub(/<[A-Za-z].+/, " ", $i);
+				gsub(/<[A-Za-z].+/, " ", $i);
 			}
+
 			print ("<p><b>Relação -> </b>" "<a href='" dominio[dom-1] $0 ".html'>" $0 "</a></p>") > path dominio[dom-1]".html";
+			
 			if(rel != "")
 				print("</body> \n </html>") > path dominio[dom-1]rel".html" 
+			
 			rel = $0;
+			
 			print ("<html>\n\t<head>\n\t\t<meta charset='UTF-8'/>\n\t</head>\n\t<body>") >  path dominio[dom-1]rel".html";
 			print ("<a href='" dominio[dom-1]".html'> Back </a>") > path dominio[dom-1]rel".html";
+			
 			$1 = "";
 			relacao = $0;
-			$1 = mat;
 		}
 
 		else{
 			$1 = "";
-			gsub(/</, "\\&lt;", $0);
 			print ("<p><b>Relação -> </b>" "<a href='" dominio[dom-1] $0".html'>" $0 "</p></a>") > path dominio[dom-1]".html";
+			
 			if(rel != "")
 				print("</body> \n </html>") > path dominio[dom-1]rel".html" 	
 			rel = $0
+			
 			print ("<html>\n\t<head>\n\t\t<meta charset='UTF-8'/>\n\t</head>\n\t<body>") >  path dominio[dom-1]rel".html";
 			print ("<a href='" dominio[dom-1]".html'> Back </a>") > path dominio[dom-1]rel".html";
 			print ("<p>\t<h2>" rel "</h2>\n</p>") > path dominio[dom-1]rel".html";
@@ -81,17 +87,16 @@ BEGIN{
 	}	
 		for(i=2; i <= NF; i++){
 			q = split($i, a, "|");
-			novo = $i;
-			gsub(/^\s/, "", novo);
+	
+			gsub(/^\s/, "", $i);
 			if(q == 1){
-				print ("<p><b>(</b>" $1 " , " ok[i-1] " ," "<a href='"dominio[dom-1] novo rel ".html'>" novo "</a><b>)</b></p>") > path dominio[dom-1]$1rel".html";
+				print ("<p><b>(</b>" $1 " , " ok[i-1] " ," "<a href='"dominio[dom-1] $i rel ".html'>" $i "</a><b>)</b></p>") > path dominio[dom-1]$1rel".html";
 			}
 			if(q > 1){
 
 					for(j = 1; j <= q; j++){
-						nova = a[j];
-						gsub(/^\s/,"", nova);
-						print ("<p><b>(</b>" $1 ", " ok[i-1] "," " <a href='"dominio[dom-1] nova rel".html'>" nova "</a>" "<b>)</b></p>") > path dominio[dom-1]$1rel".html";
+						gsub(/^\s/,"", a[j]);
+						print ("<p><b>(</b>" $1 ", " ok[i-1] "," " <a href='"dominio[dom-1] a[j] rel".html'>" a[j] "</a>" "<b>)</b></p>") > path dominio[dom-1]$1rel".html";
 					}
 			}
 
