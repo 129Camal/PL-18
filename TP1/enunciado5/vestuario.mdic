@@ -1,7 +1,7 @@
 #--------------------------------------------------------------------- 
 # dom => juntar dom=vestuário a todos os termos (skope:até novo dom)
 
-%dom:vestuário
+%dom:vestuario
 
 #--------------------------------------------------------------------- 
 # inv => cada vez que (A nt B) juntar (B bt A)
