@@ -1,6 +1,6 @@
 BEGIN{
 	FS = " ";
-	ext = 1;
+	ext = 0;
 	i = 0;
 	adverbios = "adverbios.txt";
 	adjetivos = "adjetivos.txt";
@@ -28,7 +28,7 @@ if(match($5,/^V/))
 	verb[$2]++;
 
 lemas[$3][$2];
-pal[$3] = $5;
+pos[$3] = $5;
 }
 
 END{
@@ -51,7 +51,7 @@ END{
 	}
 
 	for(l in lemas){
-		print "Lema: " l " -> Pos: " pal[l] > dic ;
+		print "Lema: " l " -> Pos: " pos[l] > dic ;
 		print "Palavras:\n" > dic  
 		for(w in lemas[l])
 		print w > dic
