@@ -1,0 +1,60 @@
+%{
+
+#include <string.h>
+#include <stdio.h>
+
+
+int nivel = 0; //verificar
+char** fam;
+char* tag;
+FILE* dot;
+
+%}
+
+%option noyywrap
+
+
+
+%%
+
+\<[^(?!)].*=.*[^(\/)]> 			{char* valor;
+								 tag = strtok(yytext,"<");
+								 tag = strtok(tag," ");
+								 valor = strtok(NULL,"=");
+
+								 if(nivel >= 0)
+								 	fprintf(dot,"%s -> %s\n",fam[nivel],tag);
+
+    							 fprintf(dot,"%s -> %s [label=\"%s\"]\n",tag,tag,valor); 
+    							 nivel++;
+    							 fam[nivel] = strdup(tag);
+								}
+
+\<[^(?!\/ )]+>					{tag = strtok(yytext,"<");
+								 tag = strtok(tag,">");
+								 fam[nivel] = strdup(tag);
+
+								 if(nivel > 1)
+								 	fprintf(dot,"%s -> %s\n",fam[nivel-1],fam[nivel]);
+								}
+
+\<\/.*> 						{if(nivel > 0)
+        							nivel--;
+								}
+
+%%
+
+int main(int argc, char** argv){
+	dot = fopen("dia.dot","w");
+	yyout = dot;
+
+	if(argc ==2){
+		yyin = fopen(argv[1], "r");
+	}
+
+	fprintf(dot,"strict diagraph g{\n");
+	yylex();
+	fprintf(dot,"}");
+
+	return 0;
+}
