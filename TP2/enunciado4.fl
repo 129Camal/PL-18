@@ -1,0 +1,12 @@
+%{
+
+#include <string.h>
+#include <stdio.h>
+#include <glib.h>
+#include "dynamicArray.h"
+
+struct familia{
+	char * filhos;
+}
+
+%}

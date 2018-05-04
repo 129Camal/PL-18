@@ -41,7 +41,7 @@ int main(int argc, char** argv){
 
 	begin(kml);
 	placemark(kml);
-	g_hash_table_destroy(hashLon);
+	g_hash_table_destroy(hashLon);	
 	g_hash_table_destroy(hashLat);
 	g_hash_table_destroy(elevation);
 	return 0;
