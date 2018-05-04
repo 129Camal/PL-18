@@ -69,17 +69,11 @@ BEGIN{
 
 	#restantes termos
 	if ($1 != termo1){
-		print ("</body></html>") > path dominio[dom-1] termo1 rel ".html";
+		print ("</body></html>") > path dominio[dom-1] rel ".html";
 		termo1 = $1;
 		print ("<html>\n\t<head>\n\t\t<meta charset='UTF-8'/>\n\t</head>\n\t<body>") >  path dominio[dom-1]$1rel".html";
 		print ("<a href='" dominio[dom-1]rel ".html'>Back</a>") > path dominio[dom-1]$1rel".html";
 		print ("<p><a href='" dominio[dom-1]$1rel ".html'>" $1 "</a></p>") > path dominio[dom-1] rel".html";
-	}
-	#primeiro termo a aparecer
-	else if ($1 == ""){
-		print ("<html>\n\t<head>\n\t\t<meta charset='UTF-8'/>\n\t</head>\n\t<body>") >  path dominio[dom-1]$1rel".html";
-		print ("<a href='" dominio[dom-1]rel ".html'>Back</a>") > path dominio[dom-1] $1 rel".html";
-		termo1 = $1;
 	}
 
 	for(r=1; r<=NF; r++){
