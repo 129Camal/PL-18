@@ -18,7 +18,10 @@ FILE* dot;
 %%
 
 \<[^(?!)].*=.*[^(\/)]> 			{char* valor;
-								 tag = strtok(yytext,"<");
+								 char* ytex;
+								 ytex = strdup(yytext);
+
+								 tag = strtok(ytex,"<");
 								 tag = strtok(tag," ");
 								 valor = strtok(NULL,"=");
 
@@ -30,7 +33,24 @@ FILE* dot;
     							 nivel++;
 								}
 
-\<[^(?!\/ )]+>					{tag = strtok(yytext,"<");
+\<[^(?!)].*=.*\/>				{char* valor;
+								 char* ytex;
+								 ytex = strdup(yytext);
+								 tag = strtok(ytex,"<");
+								 tag = strtok(tag," ");
+								 valor = strtok(NULL,"=");
+
+								 if(nivel > 1)
+								 	fprintf(dot,"%s -> %s\n",fam[nivel-1],tag);
+
+								 fprintf(dot,"%s -> %s [label=\"%s\"]\n",tag,tag,valor);
+
+								 }
+
+\<[^(?!\/ )]+>					{
+								 char* ytex;
+								 ytex = strdup(yytext);
+								 tag = strtok(ytex,"<");
 								 tag = strtok(tag,">");
 								 fam[nivel] = strdup(tag);
 								 
@@ -43,14 +63,12 @@ FILE* dot;
         							nivel--;
 								}
 
-. {}
 
 %%
 
 int main(int argc, char** argv){
 	dot = fopen("dia.dot","w");
-	yyout = dot;
-
+	
 	if(argc ==2){
 		yyin = fopen(argv[1], "r");
 	}
