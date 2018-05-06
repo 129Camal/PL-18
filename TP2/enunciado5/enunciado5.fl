@@ -19,9 +19,9 @@ int i = 1;
 
 %%
 
-lat\=\"\-?[0-9]+(\.?*[0-9]*)? { ECHO; insere(hashLat, yytext+5);}
-lon\=\"\-?[0-9]+(\.?*[0-9]*)? { ECHO; insere(hashLon, yytext+5);}
-\<ele\>\-?[0-9]+(\.*[0-9]*)? { ECHO; insere(elevation, yytext+5); i++;}
+lat\=\"\-?[0-9]+(\.[0-9]+)? { ECHO; insere(hashLat, yytext+5);}
+lon\=\"\-?[0-9]+(\.[0-9]+)? { ECHO; insere(hashLon, yytext+5);}
+\<ele\>\-?[0-9]+(\.[0-9]+)? { ECHO; insere(elevation, yytext+5); i++;}
 
 %%
 
