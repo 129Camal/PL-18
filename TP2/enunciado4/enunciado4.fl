@@ -22,25 +22,28 @@ FILE* dot;
 								 tag = strtok(tag," ");
 								 valor = strtok(NULL,"=");
 
-								 if(nivel >= 0)
-								 	fprintf(dot,"%s -> %s\n",fam[nivel],tag);
+								 if(nivel > 1)
+								 	fprintf(dot,"%s -> %s\n",fam[nivel-1],tag);
 
     							 fprintf(dot,"%s -> %s [label=\"%s\"]\n",tag,tag,valor); 
-    							 nivel++;
     							 fam[nivel] = strdup(tag);
+    							 nivel++;
 								}
 
 \<[^(?!\/ )]+>					{tag = strtok(yytext,"<");
 								 tag = strtok(tag,">");
 								 fam[nivel] = strdup(tag);
-
+								 
 								 if(nivel > 1)
 								 	fprintf(dot,"%s -> %s\n",fam[nivel-1],fam[nivel]);
+								 nivel++;	
 								}
 
 \<\/.*> 						{if(nivel > 0)
         							nivel--;
 								}
+
+. {}
 
 %%
 
@@ -52,7 +55,9 @@ int main(int argc, char** argv){
 		yyin = fopen(argv[1], "r");
 	}
 
-	fprintf(dot,"strict diagraph g{\n");
+	fam = malloc(sizeof(char*) * 10);
+
+	fprintf(dot,"strict digraph g{\n");
 	yylex();
 	fprintf(dot,"}");
 

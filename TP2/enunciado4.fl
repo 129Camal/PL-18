@@ -4,7 +4,7 @@
 #include <stdio.h>
 
 
-int nivel = 0; //verificar
+int nivel = -1; //verificar
 char** fam;
 char* tag;
 FILE* dot;
@@ -30,7 +30,8 @@ FILE* dot;
     							 fam[nivel] = strdup(tag);
 								}
 
-\<[^(?!\/ )]+>					{tag = strtok(yytext,"<");
+\<[^(?!\/ )]+>					{nivel++
+								 tag = strtok(yytext,"<");
 								 tag = strtok(tag,">");
 								 fam[nivel] = strdup(tag);
 
@@ -48,7 +49,7 @@ int main(int argc, char** argv){
 	dot = fopen("dia.dot","w");
 	yyout = dot;
 
-	if(argc ==2){
+	if(argc == 2){
 		yyin = fopen(argv[1], "r");
 	}
 
