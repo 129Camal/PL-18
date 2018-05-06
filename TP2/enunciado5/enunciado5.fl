@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <glib.h>	
 
-void insere(GHashTable* table, char* value);
+void insere(GHashTable* table, char* value, int posicao);
 void placemark(FILE* kml);
 void begin(FILE* kml);
 
@@ -19,9 +19,10 @@ int i = 1;
 
 %%
 
-lat\=\"\-?[0-9]+(\.[0-9]+)? { ECHO; insere(hashLat, yytext+5);}
-lon\=\"\-?[0-9]+(\.[0-9]+)? { ECHO; insere(hashLon, yytext+5);}
-\<ele\>\-?[0-9]+(\.[0-9]+)? { ECHO; insere(elevation, yytext+5); i++;}
+[^(minmax)]lat\=\"\-?[0-9]+(\.[0-9]+)? { insere(hashLat, yytext+6, i);}
+[^(minmax)]lon\=\"\-?[0-9]+(\.[0-9]+)? { insere(hashLon, yytext+6, i); i++;}
+\<ele\>\-?[0-9]+(\.[0-9]+)? { insere(elevation, yytext+6, i-1);}
+	
 
 %%
 
@@ -74,9 +75,14 @@ void placemark(FILE* kml){
 		char* lat = g_hash_table_lookup(hashLat, GINT_TO_POINTER(p));
     	char* lon = g_hash_table_lookup(hashLon, GINT_TO_POINTER(p));
     	char* ele = g_hash_table_lookup(elevation, GINT_TO_POINTER(p));
+    	
+    	
+    	if(ele != NULL){
+    		fprintf(kml, "		%s,%s,%s\n", lon, lat, ele);
 
-    	fprintf(kml, "		%s,%s,%s\n", lon, lat, ele);
-
+    	} else{
+    		fprintf(kml, "		%s,%s,\n", lon, lat);
+    	}
     }
 
 	fprintf(kml, "		</coordinates>\n");
@@ -86,10 +92,10 @@ void placemark(FILE* kml){
 	fprintf(kml, "</kml>\n");
 }
 
-void insere(GHashTable* table, char* value){
+void insere(GHashTable* table, char* value, int posicao){
 
 	char* new = strdup(value);
-	g_hash_table_insert(table, GINT_TO_POINTER(i), new);
+	g_hash_table_insert(table, GINT_TO_POINTER(posicao), new);
 
 }
 
