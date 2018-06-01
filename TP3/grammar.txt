@@ -1,0 +1,23 @@
+pag1/5{
+	PATH /../
+}
+
+pag2/5{
+	PATH 
+}
+
+
+pag3/5{
+	TITULO “Felizmente temos PL!”
+	VIDEO “/Documents/PL-18/TP3/“
+}
+
+pag4/5{
+	PAGINICIAL{
+		NOTICIAS 
+	}
+}
+
+pag5/5{
+	PAGINICIAL “/Documents/PL-18/index.html”
+} 
