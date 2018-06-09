@@ -1,6 +1,9 @@
 %{
+#include "html.h"
 %}
+
 %union{
+    FILE *fichInicial, fichCredit;
     char* nome;
     int tempo;
     char* atributo;
@@ -23,8 +26,8 @@ PAG: CABECALHO INFORMACAO
 CABECALHO: NOME '/' TEMPO
 
 INFORMACAO: '{' IMAGEM VIDEO TITULO AUDIO PAGITENS '}'
-          | '{' PAGINICIAL '}'
-          | '{' PAGCREDITOS '}'
+          | '{' PAGINICIAL '}' {imprime_start(ficheiro);}
+          | '{' PAGCREDITOS '}' {imprime_cred(ficheiro);}
           ;
 
 PAGITENS: '[' ITENS ']'
@@ -35,9 +38,11 @@ ITENS: ITEM ',' ITENS
     ;
 
 %%
-int main()
-{
-   yyparse();
+int main(int argc, char** argv){
+  fichInicial = fopen("pagInicial.html","w+"); /* ver a cena do w+ */
+  fichCredit = fopen("pagCredit.html","w+");
+  yyparse();
+
 }
 
 int yywrap(){
