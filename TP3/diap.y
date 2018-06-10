@@ -36,8 +36,8 @@ pagitens: '[' ITENS ']'
 
 %%
 int main(int argc, char** argv){
-  fichInicial = fopen("pagInicial.html","w+"); /* ver a cena do w+ */
-  fichCredit = fopen("pagCredit.html","w+");
+  fichInicial = fopen("html/pagInicial.html","w+"); 
+  fichCredit = fopen("html/pagCredit.html","w+");
   yyparse();
 
 }
