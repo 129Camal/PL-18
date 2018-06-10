@@ -1,9 +1,11 @@
 %{
 #include "html.h"
+int tem;
+char *nom;
+FILE *fichInicial, fichCredit;
 %}
 
 %union{
-    FILE *fichInicial, fichCredit;
     char* nome;
     int tempo;
     char* atributo;
@@ -23,11 +25,11 @@ start: pag start {printf("%s",$1);}
 pag: cabecalho informacao
     ;
 
-cabecalho: NOME '/' TEMPO
+cabecalho: NOME '/' TEMPO {strcpy(nom,$1); tem = $3;}
 
 informacao: '{' IMAGEM VIDEO TITULO AUDIO pagitens '}'
-          | '{' PAGINICIAL '}' {imprime_start(ficheiro);}
-          | '{' PAGCREDITOS '}' {imprime_cred(ficheiro);}
+          | '{' PAGINICIAL '}' {imprime_inicial(fichInicial, tem, nome);}
+          | '{' PAGCREDITOS '}' {imprime_cred(fichCredit);}
           ;
 
 pagitens: '[' ITENS ']'
