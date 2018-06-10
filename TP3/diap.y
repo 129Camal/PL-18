@@ -11,31 +11,28 @@
 
 %type <nome> NOME
 %type <tempo> TEMPO
-%type <atributo> IMAGEM VIDEO TITULO AUDIO ITEM PAGINICIAL PAGCREDITOS
+%type <atributo> IMAGEM VIDEO TITULO AUDIO ITENS PAGINICIAL PAGCREDITOS
 
-%token NOME TEMPO IMAGEM VIDEO TITULO AUDIO ITEM PAGINICIAL PAGCREDITOS
+%token NOME TEMPO IMAGEM VIDEO TITULO AUDIO ITENS PAGINICIAL PAGCREDITOS
 
 %%
-START: PAG START {printf("%s",$1);}
+start: pag start {printf("%s",$1);}
      |
      ;
 
-PAG: CABECALHO INFORMACAO
+pag: cabecalho informacao
     ;
 
-CABECALHO: NOME '/' TEMPO
+cabecalho: NOME '/' TEMPO
 
-INFORMACAO: '{' IMAGEM VIDEO TITULO AUDIO PAGITENS '}'
+informacao: '{' IMAGEM VIDEO TITULO AUDIO pagitens '}'
           | '{' PAGINICIAL '}' {imprime_start(ficheiro);}
           | '{' PAGCREDITOS '}' {imprime_cred(ficheiro);}
           ;
 
-PAGITENS: '[' ITENS ']'
+pagitens: '[' ITENS ']'
     ;
 
-ITENS: ITEM ',' ITENS
-    | ITEM
-    ;
 
 %%
 int main(int argc, char** argv){

@@ -1,5 +1,5 @@
 pag1/5{
-	PAGINICIAL
+	PAGINICIAL "Noticiário do DI"
 }
 
 pag2/5{
@@ -19,5 +19,5 @@ pag4/5{
 } 
 
 pag5/5{
-	PAGCREDITOS
+	PAGCREDITOS "Grupo 3"
 }
