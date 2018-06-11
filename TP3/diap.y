@@ -24,7 +24,7 @@ Gtree* arv = g_tree_new_full((GCompareDataFunc)g_ascii_strcasecmp, NULL, NULL, (
 %token NOME TEMPO IMAGEM VIDEO TITULO AUDIO ITENS PAGINICIAL PAGCREDITOS
 
 %%
-start: pag start {printf("%s",$1);}
+start: pag start
      |
      ;
 
