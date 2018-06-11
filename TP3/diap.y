@@ -1,8 +1,14 @@
 %{
 #include "html.h"
+#include "pag.h"
+#include <glib.h>
+
 int tem;
 char *nom;
 FILE *fichInicial, fichCredit;
+
+Gtree* arv = g_tree_new_full((GCompareDataFunc)g_ascii_strcasecmp, NULL, NULL, (GDestroyNotify)freepag);
+
 %}
 
 %union{
