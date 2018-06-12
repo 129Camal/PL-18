@@ -17,11 +17,9 @@ PAG create_pag(char* nome, char* tempo, char* pagi, char* pagc, char* tit, char*
 
 	p->nome = nome;
 	p->tempo = tempo;
-	p->paginicial = pagi;
 	p->titulo = tit;
 	p->video = vid;
 	p->audio = audio;
-	p->pagcreditos = pagc;
 	p->pagitens = it;
 
 	return p;

@@ -55,7 +55,26 @@ void imprime_cred(FILE *fichCredit){
 	fprintf(fichCredit,"</html>\n");
 }
 
-void imprime_pag(FILE *fich, )
+void faz_pag(FILE *fich, char *tempo, char *nome, char *video, char *audio, char *titulo, char *imagem){
+
+	fprintf(fich,"<!doctype html>\n");
+	fprintf(fich,"<html lang='en'>");
+	fprintf(fich,"<head>\n");
+	fprintf(fich,"\t<meta charset='utf-8'>\n");
+	fprintf(fich,"<meta http-equiv=\"REFRESH\" content=\"%s;URL=%s.html\">\n",tempo, nome);
+	fprintf(fich,"\t<title>The HTML5 Herald</title>\n");
+	fprintf(fich,"\t<meta name='description' content='The HTML5 Herald'>\n");
+	fprintf(fich,"\t<meta name='author' content='SitePoint'>\n");
+	fprintf(fich,"</head>\n");
+	fprintf(fich,"<body style = \"background-color:powderblue;\">\n");
+	fprintf(fich,"<center><h1>%s</h1></center>",titulo);
+	fprintf(fich, "<img src=\"%s\" align=\"middle\" height=\"90\" width=\"100\">\n",imagem);
+	fprintf(fich,"<iframe width=\"420\" height=\"345\" src=\"%s\">\n</iframe>",video);
+	fprintf(fich,"<embed height=\"60\" type=\"audio/midi\" width=\"144\" src=\"%s\" volume=\"60\" loop=\"false\" autostart=\"true\"/>\n", audio);
+	fprintf(fich,"</body>\n");
+	fprintf(fich,"</html>\n");
+
+}
 
 
 

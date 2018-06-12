@@ -14,6 +14,8 @@ char *pagi, *pagc;
 
 FILE *fichInicial, fichCredit;
 
+int i = 0; // ver esta porra aqui 
+
 Gtree* arv = g_tree_new_full((GCompareDataFunc)g_ascii_strcasecmp, NULL, NULL, (GDestroyNotify)freepag);
 
 %}
@@ -23,7 +25,7 @@ Gtree* arv = g_tree_new_full((GCompareDataFunc)g_ascii_strcasecmp, NULL, NULL, (
     int tempo;
     char* atributo;
 }
-
+ 
 %type <nome> NOME
 %type <tempo> TEMPO
 %type <atributo> IMAGEM VIDEO TITULO AUDIO ITENS PAGINICIAL PAGCREDITOS
@@ -47,7 +49,7 @@ informacao: '{' IMAGEM VIDEO TITULO AUDIO pagitens '}' {img = strdup($2);
                                                         audio = strdup($5);
                                                         }
 
-          | '{' PAGINICIAL '}' {pagi = strdup($2); imprime_inicial(fichInicial, tem, nome);}
+          | '{' PAGINICIAL '}' {pagi = strdup($2); imprime_inicial(fichInicial, tem, nom);}
           | '{' PAGCREDITOS '}' {pagc = strdup($2); imprime_cred(fichCredit);}
           ;
 
@@ -70,4 +72,50 @@ int yywrap(){
 void yyerror (char const *s) {
    fprintf (stderr, "%s\n", s);
 }
+
+void pags(PAG p){
+
+  g_tree_foreach(arv, pag12, arv);
+
+}
+
+gboolean pag12(gpointer key, gpointer value, GTree* arv){
+    int i = (int) key;
+    PAG p = (PAG) value;
+    int j;
+
+    if(strcmp(getPagInicial(p), NULL) !=0 ){
+      imprime_inicial(fichInicial, getNome(p), getTempo(p));
+      return FALSE;
+    }
+
+
+    if(strcmp(getPagCreditos(p), NULL) !=0 ){
+      imprime_inicial(fichCredit);
+      return FALSE;
+    }
+
+    PAG new = g_tree_lookup(arv, key+1);
+
+    if(new)
+      char *nome_novo = getNome(new);
+
+    for(j=0; j < i-1; j++){
+      char *aux = getNome(p);
+      char *n = strcat("html/", aux);
+      char *n2 = strcat(n,".html");
+
+      FILE * f = fopen(n2,"w+");
+
+      faz_pag(getTempo(p), nome_novo, getTitulo(p), getVideo(p), getAudio(p));
+    }
+
+}
+
+
+
+
+
+
+
 
