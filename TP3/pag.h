@@ -24,7 +24,7 @@ char* getAudio(PAG a);
 
 char* getPagItens(PAG a);
 
-int getTempo(PAG a);
+char* getTempo(PAG a);
 
 void setNome(PAG a, char* nome);
 
@@ -40,7 +40,7 @@ void setAudio(PAG a, char* audio);
 
 void setPagItens(PAG a, char* pagitens);
 
-void setTempo(PAG a, int tempo);
+void setTempo(PAG a, char* tempo);
 
 #endif
 
