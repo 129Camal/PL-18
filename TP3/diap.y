@@ -3,8 +3,15 @@
 #include "pag.h"
 #include <glib.h>
 
-int tem;
+char *tem;
 char *nom;
+char *img;
+char *vid;
+char *tit;
+char *audio;
+char *itens
+char *pagi, *pagc;
+
 FILE *fichInicial, fichCredit;
 
 Gtree* arv = g_tree_new_full((GCompareDataFunc)g_ascii_strcasecmp, NULL, NULL, (GDestroyNotify)freepag);
@@ -24,21 +31,27 @@ Gtree* arv = g_tree_new_full((GCompareDataFunc)g_ascii_strcasecmp, NULL, NULL, (
 %token NOME TEMPO IMAGEM VIDEO TITULO AUDIO ITENS PAGINICIAL PAGCREDITOS
 
 %%
-start: pag start
+start: pag start {i++;}
      |
      ;
 
-pag: cabecalho informacao
+pag: cabecalho informacao {PAG p = create_pag(nom, tem, pagi, pagc, img, vid, tit, audio, itens);
+                            g_tree_insert(arv, i, p;)}
     ;
 
-cabecalho: NOME '/' TEMPO {strcpy(nom,$1); tem = $3;}
+cabecalho: NOME '/' TEMPO {nom = strdup($1); tem = strdup($3);}
 
-informacao: '{' IMAGEM VIDEO TITULO AUDIO pagitens '}'
-          | '{' PAGINICIAL '}' {imprime_inicial(fichInicial, tem, nome);}
-          | '{' PAGCREDITOS '}' {imprime_cred(fichCredit);}
+informacao: '{' IMAGEM VIDEO TITULO AUDIO pagitens '}' {img = strdup($2);
+                                                        vid = strdup($3);
+                                                        tit = strdup($4);
+                                                        audio = strdup($5);
+                                                        }
+
+          | '{' PAGINICIAL '}' {pagi = strdup($2); imprime_inicial(fichInicial, tem, nome);}
+          | '{' PAGCREDITOS '}' {pagc = strdup($2); imprime_cred(fichCredit);}
           ;
 
-pagitens: '[' ITENS ']'
+pagitens: '[' ITENS ']' {itens = strdup($6);}
     ;
 
 

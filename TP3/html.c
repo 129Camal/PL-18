@@ -1,9 +1,7 @@
 #include "html.h"
 
 
-void imprime_inicial(FILE *fichInicial, int tempo, char *nome){
-	char time[12];
-	sprintf(str,"%d",time);
+void imprime_inicial(FILE *fichInicial, char* tempo, char *nome){
 
 	fprintf(fichInicial,"<!doctype html>\n");
 	fprintf(fichInicial,"<html lang='en'>");

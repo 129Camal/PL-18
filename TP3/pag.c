@@ -12,17 +12,17 @@ struct pag {
      char* pagitens;
 };
 
-PAG create_pag(){
+PAG create_pag(char* nome, char* tempo, char* pagi, char* pagc, char* tit, char* vid, char* audio, char* it){
 	PAG p = malloc(sizeof(struct pag));
 
-	p->nome = "NULL";
-	p->tempo = 0;
-	p->paginicial = "NULL";
-	p->titulo = "NULL";
-	p->video = "NULL";
-	p->audio = "NULL";
-	p->pagcreditos = "NULL";
-	p->pagitens = "NULL";
+	p->nome = nome;
+	p->tempo = tempo;
+	p->paginicial = pagi;
+	p->titulo = tit;
+	p->video = vid;
+	p->audio = audio;
+	p->pagcreditos = pagc;
+	p->pagitens = it;
 
 	return p;
 }
