@@ -104,9 +104,8 @@ int main(int argc, char** argv){
   fichInicial = fopen("html/pagInicial.html","w+"); 
   fichCredit = fopen("html/pagCredit.html","w+");
 
-  yyparse();
-
   g_tree_foreach(arv, (GTraverseFunc) pag12, arv);
+  yyparse();
 
 }
 
