@@ -3,6 +3,10 @@
 #include "pag.c"
 #include <glib.h>
 #include <stdio.h>
+void yyerror (char const *s);
+int yylex();
+int yywrap();
+gboolean pag12(gpointer key, gpointer value, GTree* arv);
 
 
 char *tem;
@@ -18,7 +22,6 @@ GTree* arv;
 FILE *fichInicial, *fichCredit;
 
 int i = 0;
-
 
 %}
 
@@ -40,27 +43,32 @@ start: pag start {i++;}
      ;
 
 pag: cabecalho informacao {PAG p = create_pag(nom, tem, pagi, pagc, tit, img, vid, audio, itens);
-                            g_tree_insert(arv, GINT_TO_POINTER(i), p);}
+                            g_tree_insert(arv, GINT_TO_POINTER(i), p);
+                            printf("Guardei %d", i);}
     ;
 
 cabecalho: NOME '/' TEMPO {nom = strdup($1); tem = strdup($3);}
 
 informacao: '{' IMAGEM VIDEO TITULO AUDIO pagitens '}' {img = strdup($2);
+                                                        printf("Guardei  img: %s\n", img);
                                                         vid = strdup($3);
+                                                        printf("Guardei  vid: %s\n", vid);
                                                         tit = strdup($4);
+                                                        printf("Guardei  tit: %s\n", tit);
                                                         audio = strdup($5);
+                                                        printf("Guardei  audio: %s\n", audio);
                                                         }
 
-          | '{' PAGINICIAL '}' {pagi = strdup($2); imprime_inicial(fichInicial, tem, nom);}
-          | '{' PAGCREDITOS '}' {pagc = strdup($2); imprime_cred(fichCredit);}
+          | '{' PAGINICIAL '}' {pagi = strdup($2); printf("Guardei  pagI: %s\n",pagi);
+          ;imprime_inicial(fichInicial, tem, nom);}
+          | '{' PAGCREDITOS '}' {pagc = strdup($2); printf("Guardei  pagC: %s\n",pagc);imprime_cred(fichCredit);}
           ;
 
-pagitens: '[' ITENS ']' {itens = strdup($2);}
+pagitens: '[' ITENS ']' {itens = strdup($2); printf("Guardei itens: %s\n", itens);}
     ;
 
 
 %%
-
 
 gboolean pag12(gpointer key, gpointer value, GTree* arv){
     int i = (int) key;
@@ -78,7 +86,7 @@ gboolean pag12(gpointer key, gpointer value, GTree* arv){
       return FALSE;
     }
 
-    PAG new = g_tree_lookup(arv, key+1);
+    PAG new = g_tree_lookup(arv, GINT_TO_POINTER(key+1));
 
     if(new){
       char *nome_novo = getNome(new);
@@ -114,9 +122,8 @@ int yywrap(){
    return 1;
 }
 
-int yyerror (char *s) {
+void yyerror (char const *s) {
    fprintf (stderr, "%s\n", s);
-   return 0;
 }
 
 
