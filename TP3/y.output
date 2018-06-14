@@ -1,39 +1,76 @@
-Grammar
+Useless nonterminals
 
-    0 $accept: start $end
+   pag
+   cabecalho
+   informacao
+   conteudo
+   pagitens
 
-    1 start: pag start
-    2      | /* empty */
+
+Terminals which are not used
+
+   NOME
+   TEMPO
+   IMAGEM
+   VIDEO
+   TITULO
+   AUDIO
+   ITENS
+   PAGINICIAL
+   PAGCREDITOS
+   CHA
+   BAR
+   '/'
+   '{'
+   '}'
+
+
+Useless rules
+
+    2 start: pag start
 
     3 pag: cabecalho informacao
 
     4 cabecalho: NOME '/' TEMPO
 
-    5 informacao: '{' IMAGEM VIDEO TITULO AUDIO pagitens '}'
-    6           | '{' PAGINICIAL '}'
-    7           | '{' PAGCREDITOS '}'
+    5 informacao: '{' conteudo '}'
 
-    8 pagitens: '[' ITENS ']'
+    6 conteudo: IMAGEM conteudo
+    7         | VIDEO conteudo
+    8         | TITULO conteudo
+    9         | AUDIO conteudo
+   10         | pagitens conteudo
+   11         | PAGINICIAL conteudo
+   12         | PAGCREDITOS conteudo
+
+   13 pagitens: ITENS
+
+
+Grammar
+
+    0 $accept: start $end
+
+    1 start: /* empty */
 
 
 Terminals, with rules where they appear
 
 $end (0) 0
-'/' (47) 4
-'[' (91) 8
-']' (93) 8
-'{' (123) 5 6 7
-'}' (125) 5 6 7
+'/' (47)
+'{' (123)
+'}' (125)
 error (256)
-NOME (258) 4
-TEMPO (259) 4
-IMAGEM (260) 5
-VIDEO (261) 5
-TITULO (262) 5
-AUDIO (263) 5
-ITENS (264) 8
-PAGINICIAL (265) 6
-PAGCREDITOS (266) 7
+NOME (258)
+TEMPO (259)
+IMAGEM (260)
+VIDEO (261)
+TITULO (262)
+AUDIO (263)
+ITENS (264)
+PAGINICIAL (265)
+PAGCREDITOS (266)
+CHA (267)
+BAR (268)
 
 
 Nonterminals, with rules where they appear
@@ -41,200 +78,27 @@ Nonterminals, with rules where they appear
 $accept (17)
     on left: 0
 start (18)
-    on left: 1 2, on right: 0 1
-pag (19)
-    on left: 3, on right: 1
-cabecalho (20)
-    on left: 4, on right: 3
-informacao (21)
-    on left: 5 6 7, on right: 3
-pagitens (22)
-    on left: 8, on right: 5
+    on left: 1, on right: 0
 
 
 state 0
 
     0 $accept: . start $end
 
-    NOME  shift, and go to state 1
+    $default  reduce using rule 1 (start)
 
-    $default  reduce using rule 2 (start)
-
-    start      go to state 2
-    pag        go to state 3
-    cabecalho  go to state 4
+    start  go to state 1
 
 
 state 1
 
-    4 cabecalho: NOME . '/' TEMPO
+    0 $accept: start . $end
 
-    '/'  shift, and go to state 5
+    $end  shift, and go to state 2
 
 
 state 2
 
-    0 $accept: start . $end
-
-    $end  shift, and go to state 6
-
-
-state 3
-
-    1 start: pag . start
-
-    NOME  shift, and go to state 1
-
-    $default  reduce using rule 2 (start)
-
-    start      go to state 7
-    pag        go to state 3
-    cabecalho  go to state 4
-
-
-state 4
-
-    3 pag: cabecalho . informacao
-
-    '{'  shift, and go to state 8
-
-    informacao  go to state 9
-
-
-state 5
-
-    4 cabecalho: NOME '/' . TEMPO
-
-    TEMPO  shift, and go to state 10
-
-
-state 6
-
     0 $accept: start $end .
 
     $default  accept
-
-
-state 7
-
-    1 start: pag start .
-
-    $default  reduce using rule 1 (start)
-
-
-state 8
-
-    5 informacao: '{' . IMAGEM VIDEO TITULO AUDIO pagitens '}'
-    6           | '{' . PAGINICIAL '}'
-    7           | '{' . PAGCREDITOS '}'
-
-    IMAGEM       shift, and go to state 11
-    PAGINICIAL   shift, and go to state 12
-    PAGCREDITOS  shift, and go to state 13
-
-
-state 9
-
-    3 pag: cabecalho informacao .
-
-    $default  reduce using rule 3 (pag)
-
-
-state 10
-
-    4 cabecalho: NOME '/' TEMPO .
-
-    $default  reduce using rule 4 (cabecalho)
-
-
-state 11
-
-    5 informacao: '{' IMAGEM . VIDEO TITULO AUDIO pagitens '}'
-
-    VIDEO  shift, and go to state 14
-
-
-state 12
-
-    6 informacao: '{' PAGINICIAL . '}'
-
-    '}'  shift, and go to state 15
-
-
-state 13
-
-    7 informacao: '{' PAGCREDITOS . '}'
-
-    '}'  shift, and go to state 16
-
-
-state 14
-
-    5 informacao: '{' IMAGEM VIDEO . TITULO AUDIO pagitens '}'
-
-    TITULO  shift, and go to state 17
-
-
-state 15
-
-    6 informacao: '{' PAGINICIAL '}' .
-
-    $default  reduce using rule 6 (informacao)
-
-
-state 16
-
-    7 informacao: '{' PAGCREDITOS '}' .
-
-    $default  reduce using rule 7 (informacao)
-
-
-state 17
-
-    5 informacao: '{' IMAGEM VIDEO TITULO . AUDIO pagitens '}'
-
-    AUDIO  shift, and go to state 18
-
-
-state 18
-
-    5 informacao: '{' IMAGEM VIDEO TITULO AUDIO . pagitens '}'
-
-    '['  shift, and go to state 19
-
-    pagitens  go to state 20
-
-
-state 19
-
-    8 pagitens: '[' . ITENS ']'
-
-    ITENS  shift, and go to state 21
-
-
-state 20
-
-    5 informacao: '{' IMAGEM VIDEO TITULO AUDIO pagitens . '}'
-
-    '}'  shift, and go to state 22
-
-
-state 21
-
-    8 pagitens: '[' ITENS . ']'
-
-    ']'  shift, and go to state 23
-
-
-state 22
-
-    5 informacao: '{' IMAGEM VIDEO TITULO AUDIO pagitens '}' .
-
-    $default  reduce using rule 5 (informacao)
-
-
-state 23
-
-    8 pagitens: '[' ITENS ']' .
-
-    $default  reduce using rule 8 (pagitens)

@@ -1,23 +1,23 @@
-pag1/5{
+pag1/tempo5{
 	PAGINICIAL "Noticiário do DI"
 }
 
-pag2/5{
+pag2/tempo5{
 	TITULO “Felizmente temos PL!”
 	VIDEO “/Documents/PL-18/TP3/“
 }
 
 
-pag3/5{
+pag3/tempo5{
 	TITULO “Felizmente temos PL!”
 	PAGITENS [Um,Dois,Três]
 }
 
-pag4/5{
+pag4/tempo5{
 	IMAGEM "https://i.pinimg.com/736x/12/7b/6e/127b6ef7b928dce19beb5dcb140fb050--kitty.jpg"
 	AUDIO "~/Documents/PL-18/TP3/"
 } 
 
-pag5/5{
+pag5/tempo5{
 	PAGCREDITOS "Grupo 3"
 }
