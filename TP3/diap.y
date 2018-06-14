@@ -3,6 +3,10 @@
 #include "pag.c"
 #include <glib.h>
 #include <stdio.h>
+void yyerror (char const *s);
+int yylex();
+int yywrap();
+gboolean pag12(gpointer key, gpointer value, GTree* arv);
 
 
 char *tem;
@@ -17,8 +21,7 @@ GTree* arv;
 
 FILE *fichInicial, *fichCredit;
 
-int i = 0;
-
+int i;
 
 %}
 
@@ -26,13 +29,17 @@ int i = 0;
     char* nome;
     char* tempo;
     char* atributo;
+    char chaveta;
+    char barra;
 }
- 
+
+%type <barra> BAR
+%type <chaveta> CHA
 %type <nome> NOME
 %type <tempo> TEMPO
 %type <atributo> IMAGEM VIDEO TITULO AUDIO ITENS PAGINICIAL PAGCREDITOS
 
-%token NOME TEMPO IMAGEM VIDEO TITULO AUDIO ITENS PAGINICIAL PAGCREDITOS
+%token NOME TEMPO IMAGEM VIDEO TITULO AUDIO ITENS PAGINICIAL PAGCREDITOS CHA BAR
 
 %%
 start: pag start {i++;}
@@ -40,27 +47,27 @@ start: pag start {i++;}
      ;
 
 pag: cabecalho informacao {PAG p = create_pag(nom, tem, pagi, pagc, tit, img, vid, audio, itens);
-                            g_tree_insert(arv, GINT_TO_POINTER(i), p);}
+                            g_tree_insert(arv, GINT_TO_POINTER(i), p);
+                            printf("Guardei %d", i);}
     ;
 
 cabecalho: NOME '/' TEMPO {nom = strdup($1); tem = strdup($3);}
-
-informacao: '{' IMAGEM VIDEO TITULO AUDIO pagitens '}' {img = strdup($2);
-                                                        vid = strdup($3);
-                                                        tit = strdup($4);
-                                                        audio = strdup($5);
-                                                        }
-
-          | '{' PAGINICIAL '}' {pagi = strdup($2); imprime_inicial(fichInicial, tem, nom);}
-          | '{' PAGCREDITOS '}' {pagc = strdup($2); imprime_cred(fichCredit);}
+         ;
+informacao: '{' conteudo '}'
           ;
 
-pagitens: '[' ITENS ']' {itens = strdup($2);}
-    ;
+conteudo:  IMAGEM  conteudo {img = strdup($1);}
+          | VIDEO conteudo {vid = strdup($1);}
+          | TITULO conteudo {tit = strdup($1);}
+          | AUDIO conteudo {audio = strdup($1);}
+          | pagitens conteudo {} 
+          | PAGINICIAL conteudo {pagi = strdup($1); printf("Guardei  pagI: %s\n",pagi); imprime_inicial(fichInicial, tem, nom);}
+          | PAGCREDITOS conteudo {pagc = strdup($1); printf("Guardei  pagC: %s\n",pagc);imprime_cred(fichCredit);}
+          ;
 
-
+pagitens: ITENS {itens = strdup($1);}
+        ;
 %%
-
 
 gboolean pag12(gpointer key, gpointer value, GTree* arv){
     int i = (int) key;
@@ -78,7 +85,7 @@ gboolean pag12(gpointer key, gpointer value, GTree* arv){
       return FALSE;
     }
 
-    PAG new = g_tree_lookup(arv, key+1);
+    PAG new = g_tree_lookup(arv, GINT_TO_POINTER(key+1));
 
     if(new){
       char *nome_novo = getNome(new);
@@ -104,18 +111,23 @@ int main(int argc, char** argv){
   fichInicial = fopen("html/pagInicial.html","w+"); 
   fichCredit = fopen("html/pagCredit.html","w+");
 
+  printf("Cheguei 1");
+  i = 0;
+  yyparse();
+
+  printf("Cheguei 2");
   g_tree_foreach(arv, (GTraverseFunc) pag12, arv);
   yyparse();
 
+  printf("Cheguei 3");
 }
 
 int yywrap(){
    return 1;
 }
 
-int yyerror (char *s) {
+void yyerror (char const *s) {
    fprintf (stderr, "%s\n", s);
-   return 0;
 }
 
 
