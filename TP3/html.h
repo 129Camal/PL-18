@@ -2,9 +2,10 @@
 #define _HTML_H_
 
 
-void imprime_inicial();
+char* imprime_inicial();
 
-void imprime_cred();
+char* imprime_cred();
 
 void faz_pag();
+
 #endif

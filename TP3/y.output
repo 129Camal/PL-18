@@ -1,9 +1,9 @@
 Grammar
 
-    0 $accept: start $end
+    0 $accept: pags $end
 
-    1 start: pag start
-    2      | /* empty */
+    1 pags: pags pag
+    2     | pag
 
     3 pag: cabecalho '{' conteudo '}'
 
@@ -13,12 +13,9 @@ Grammar
     6         | conteudo VIDEO
     7         | conteudo TITULO
     8         | conteudo AUDIO
-    9         | conteudo pagitens
-   10         | conteudo PAGINICIAL
-   11         | conteudo PAGCREDITOS
-   12         | /* empty */
-
-   13 pagitens: ITENS
+    9         | conteudo PAGINICIAL
+   10         | conteudo PAGCREDITOS
+   11         | /* empty */
 
 
 Terminals, with rules where they appear
@@ -34,36 +31,31 @@ IMAGEM (260) 5
 VIDEO (261) 6
 TITULO (262) 7
 AUDIO (263) 8
-ITENS (264) 13
-PAGINICIAL (265) 10
-PAGCREDITOS (266) 11
+PAGINICIAL (264) 9
+PAGCREDITOS (265) 10
 
 
 Nonterminals, with rules where they appear
 
-$accept (15)
+$accept (14)
     on left: 0
-start (16)
+pags (15)
     on left: 1 2, on right: 0 1
-pag (17)
-    on left: 3, on right: 1
-cabecalho (18)
+pag (16)
+    on left: 3, on right: 1 2
+cabecalho (17)
     on left: 4, on right: 3
-conteudo (19)
-    on left: 5 6 7 8 9 10 11 12, on right: 3 5 6 7 8 9 10 11
-pagitens (20)
-    on left: 13, on right: 9
+conteudo (18)
+    on left: 5 6 7 8 9 10 11, on right: 3 5 6 7 8 9 10
 
 
 state 0
 
-    0 $accept: . start $end
+    0 $accept: . pags $end
 
     NOME  shift, and go to state 1
 
-    $default  reduce using rule 2 (start)
-
-    start      go to state 2
+    pags       go to state 2
     pag        go to state 3
     cabecalho  go to state 4
 
@@ -77,22 +69,21 @@ state 1
 
 state 2
 
-    0 $accept: start . $end
+    0 $accept: pags . $end
+    1 pags: pags . pag
 
     $end  shift, and go to state 6
+    NOME  shift, and go to state 1
+
+    pag        go to state 7
+    cabecalho  go to state 4
 
 
 state 3
 
-    1 start: pag . start
+    2 pags: pag .
 
-    NOME  shift, and go to state 1
-
-    $default  reduce using rule 2 (start)
-
-    start      go to state 7
-    pag        go to state 3
-    cabecalho  go to state 4
+    $default  reduce using rule 2 (pags)
 
 
 state 4
@@ -111,23 +102,23 @@ state 5
 
 state 6
 
-    0 $accept: start $end .
+    0 $accept: pags $end .
 
     $default  accept
 
 
 state 7
 
-    1 start: pag start .
+    1 pags: pags pag .
 
-    $default  reduce using rule 1 (start)
+    $default  reduce using rule 1 (pags)
 
 
 state 8
 
     3 pag: cabecalho '{' . conteudo '}'
 
-    $default  reduce using rule 12 (conteudo)
+    $default  reduce using rule 11 (conteudo)
 
     conteudo  go to state 10
 
@@ -146,20 +137,16 @@ state 10
     6         | conteudo . VIDEO
     7         | conteudo . TITULO
     8         | conteudo . AUDIO
-    9         | conteudo . pagitens
-   10         | conteudo . PAGINICIAL
-   11         | conteudo . PAGCREDITOS
+    9         | conteudo . PAGINICIAL
+   10         | conteudo . PAGCREDITOS
 
     IMAGEM       shift, and go to state 11
     VIDEO        shift, and go to state 12
     TITULO       shift, and go to state 13
     AUDIO        shift, and go to state 14
-    ITENS        shift, and go to state 15
-    PAGINICIAL   shift, and go to state 16
-    PAGCREDITOS  shift, and go to state 17
-    '}'          shift, and go to state 18
-
-    pagitens  go to state 19
+    PAGINICIAL   shift, and go to state 15
+    PAGCREDITOS  shift, and go to state 16
+    '}'          shift, and go to state 17
 
 
 state 11
@@ -192,34 +179,20 @@ state 14
 
 state 15
 
-   13 pagitens: ITENS .
+    9 conteudo: conteudo PAGINICIAL .
 
-    $default  reduce using rule 13 (pagitens)
+    $default  reduce using rule 9 (conteudo)
 
 
 state 16
 
-   10 conteudo: conteudo PAGINICIAL .
+   10 conteudo: conteudo PAGCREDITOS .
 
     $default  reduce using rule 10 (conteudo)
 
 
 state 17
 
-   11 conteudo: conteudo PAGCREDITOS .
-
-    $default  reduce using rule 11 (conteudo)
-
-
-state 18
-
     3 pag: cabecalho '{' conteudo '}' .
 
     $default  reduce using rule 3 (pag)
-
-
-state 19
-
-    9 conteudo: conteudo pagitens .
-
-    $default  reduce using rule 9 (conteudo)

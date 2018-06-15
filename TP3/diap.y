@@ -1,26 +1,13 @@
 %{
 #include "html.c"
-#include "pag.c"
-#include <glib.h>
+#include <stdlib.h>
 #include <stdio.h>
+
 void yyerror (char const *s);
 int yylex();
 int yywrap();
 int yyparse();
-gboolean pag12(gpointer key, gpointer value, GTree* arv);
 
-
-char *tem;
-char *nom;
-char *img;
-char *vid;
-char *tit;
-char *audio;
-char *itens;
-char *pagi, *pagc;
-GTree* arv;
-
-FILE *fichInicial, *fichCredit;
 
 int i;
 
@@ -34,89 +21,45 @@ int i;
 
 %type <nome> NOME
 %type <tempo> TEMPO
-%type <atributo> IMAGEM VIDEO TITULO AUDIO ITENS PAGINICIAL PAGCREDITOS
+%type <atributo> IMAGEM VIDEO TITULO AUDIO PAGINICIAL PAGCREDITOS pags pag conteudo cabecalho
 
-%token NOME TEMPO IMAGEM VIDEO TITULO AUDIO ITENS PAGINICIAL PAGCREDITOS 
+%token NOME TEMPO IMAGEM VIDEO TITULO AUDIO PAGINICIAL PAGCREDITOS 
 
 %%
-start: start pag {i++;}
-     |  {}
+pags : pags pag                  { faz_pag($2, i);
+                                    i++; 
+                                 }
+     | pag                       { faz_pag($1, i); 
+                                    i++;
+                                 }
      ;
 
-pag: cabecalho '{' conteudo '}' {PAG p = create_pag(nom, tem, pagi, pagc, tit, img, vid, audio, itens);
-                            g_tree_insert(arv, GINT_TO_POINTER(i), p);
-                            printf("Guardei %d", i);}
+pag: cabecalho '{' conteudo '}'  { asprintf(&$$, "%s%s", $1, $3);}
     ;
 
-cabecalho: NOME '/' TEMPO {nom = strdup($1); tem = strdup($3);}
+cabecalho: NOME '/' TEMPO        { asprintf(&$$, "<meta http-equiv=\"REFRESH\" content=\"%s; URL=%d.html\">\n", $3, i+1); }
          ;
 
 
-conteudo:  conteudo IMAGEM {img = strdup($2);}
-          | conteudo VIDEO {vid = strdup($2);}
-          | conteudo TITULO {tit = strdup($2);}
-          | conteudo AUDIO {audio = strdup($2);}
-          | conteudo pagitens {} 
-          | conteudo PAGINICIAL {pagi = strdup($2); printf("Guardei  pagI: %s\n",pagi); imprime_inicial(fichInicial, tem, nom);}
-          | conteudo PAGCREDITOS {pagc = strdup($2); printf("Guardei  pagC: %s\n",pagc);imprime_cred(fichCredit);}
-          |          {}
+conteudo:  conteudo IMAGEM       { asprintf(&$$, "%s<img src=%s align=\"middle\" height=\"200\" width=\"520\">\n",$1, $2); }
+          | conteudo VIDEO       { asprintf(&$$, "%s<iframe width=\"420\" height=\"345\" src=\"%s\">\n</iframe>\n",$1, $2); }
+          | conteudo TITULO      { asprintf(&$$, "%s<center><h1>%s</h1></center>\n", $1, $2); }
+          | conteudo AUDIO       { asprintf(&$$, "%s<embed height=\"60\" type=\"audio/midi\" width=\"144\" src=%s volume=\"60\" loop=\"false\" autostart=\"true\"/>\n", $1, $2); }
+          | conteudo PAGINICIAL  { asprintf(&$$, "%s%s", $1, imprime_inicial()); }
+          | conteudo PAGCREDITOS { asprintf(&$$, "%s%s", $1, imprime_cred());}
+          |                      { $$ = "";}
           ;
 
-pagitens: ITENS {$$ = $1; itens = strdup($1);}
-        ;
 %%
-
-gboolean pag12(gpointer key, gpointer value, GTree* arv){
-    int i = (int) key;
-    PAG p = (PAG) value;
-    int j;
-
-    if(strcmp(getPagInicial(p), NULL) !=0 ){
-      imprime_inicial(fichInicial, getNome(p), getTempo(p));
-      return FALSE;
-    }
-
-
-    if(strcmp(getPagCreditos(p), NULL) !=0 ){
-      imprime_cred(fichCredit);
-      return FALSE;
-    }
-
-    PAG new = g_tree_lookup(arv, GINT_TO_POINTER(key+1));
-
-    if(new){
-      char *nome_novo = getNome(new);
-
-      for(j=0; j < i-1; j++){
-        char *aux = getNome(p);
-        char *n = strcat("html/", aux);
-        char *n2 = strcat(n,".html");
-
-      FILE * f = fopen(n2,"w+");
- 
-      faz_pag(f, getTempo(p), nome_novo, getPagInicial(p), getPagCreditos(p), getVideo(p), getAudio(p), getTitulo(p), getImagem(p));
-      
-      }
-    }
-
-    return FALSE;
-}
 
 int main(int argc, char** argv){
 
-  arv = g_tree_new((GCompareFunc)g_ascii_strcasecmp);
-  fichInicial = fopen("html/pagInicial.html","w+"); 
-  fichCredit = fopen("html/pagCredit.html","w+");
-
-  printf("Cheguei 1");
   i = 0;
+
   yyparse();
 
-  printf("Cheguei 2");
-  g_tree_foreach(arv, (GTraverseFunc) pag12, arv);
-  yyparse();
+  return 0;
 
-  printf("Cheguei 3");
 }
 
 int yywrap(){
@@ -124,7 +67,7 @@ int yywrap(){
 }
 
 void yyerror (char const *s) {
-   fprintf (stderr, "%s\n", s);
+   fprintf (stderr, "%s\n",s);
 }
 
 
