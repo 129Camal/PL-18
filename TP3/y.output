@@ -1,104 +1,225 @@
-Useless nonterminals
-
-   pag
-   cabecalho
-   informacao
-   conteudo
-   pagitens
-
-
-Terminals which are not used
-
-   NOME
-   TEMPO
-   IMAGEM
-   VIDEO
-   TITULO
-   AUDIO
-   ITENS
-   PAGINICIAL
-   PAGCREDITOS
-   CHA
-   BAR
-   '/'
-   '{'
-   '}'
-
-
-Useless rules
-
-    2 start: pag start
-
-    3 pag: cabecalho informacao
-
-    4 cabecalho: NOME '/' TEMPO
-
-    5 informacao: '{' conteudo '}'
-
-    6 conteudo: IMAGEM conteudo
-    7         | VIDEO conteudo
-    8         | TITULO conteudo
-    9         | AUDIO conteudo
-   10         | pagitens conteudo
-   11         | PAGINICIAL conteudo
-   12         | PAGCREDITOS conteudo
-
-   13 pagitens: ITENS
-
-
 Grammar
 
     0 $accept: start $end
 
-    1 start: /* empty */
+    1 start: pag start
+    2      | /* empty */
+
+    3 pag: cabecalho '{' conteudo '}'
+
+    4 cabecalho: NOME '/' TEMPO
+
+    5 conteudo: conteudo IMAGEM
+    6         | conteudo VIDEO
+    7         | conteudo TITULO
+    8         | conteudo AUDIO
+    9         | conteudo pagitens
+   10         | conteudo PAGINICIAL
+   11         | conteudo PAGCREDITOS
+   12         | /* empty */
+
+   13 pagitens: ITENS
 
 
 Terminals, with rules where they appear
 
 $end (0) 0
-'/' (47)
-'{' (123)
-'}' (125)
+'/' (47) 4
+'{' (123) 3
+'}' (125) 3
 error (256)
-NOME (258)
-TEMPO (259)
-IMAGEM (260)
-VIDEO (261)
-TITULO (262)
-AUDIO (263)
-ITENS (264)
-PAGINICIAL (265)
-PAGCREDITOS (266)
-CHA (267)
-BAR (268)
+NOME (258) 4
+TEMPO (259) 4
+IMAGEM (260) 5
+VIDEO (261) 6
+TITULO (262) 7
+AUDIO (263) 8
+ITENS (264) 13
+PAGINICIAL (265) 10
+PAGCREDITOS (266) 11
 
 
 Nonterminals, with rules where they appear
 
-$accept (17)
+$accept (15)
     on left: 0
-start (18)
-    on left: 1, on right: 0
+start (16)
+    on left: 1 2, on right: 0 1
+pag (17)
+    on left: 3, on right: 1
+cabecalho (18)
+    on left: 4, on right: 3
+conteudo (19)
+    on left: 5 6 7 8 9 10 11 12, on right: 3 5 6 7 8 9 10 11
+pagitens (20)
+    on left: 13, on right: 9
 
 
 state 0
 
     0 $accept: . start $end
 
-    $default  reduce using rule 1 (start)
+    NOME  shift, and go to state 1
 
-    start  go to state 1
+    $default  reduce using rule 2 (start)
+
+    start      go to state 2
+    pag        go to state 3
+    cabecalho  go to state 4
 
 
 state 1
 
-    0 $accept: start . $end
+    4 cabecalho: NOME . '/' TEMPO
 
-    $end  shift, and go to state 2
+    '/'  shift, and go to state 5
 
 
 state 2
 
+    0 $accept: start . $end
+
+    $end  shift, and go to state 6
+
+
+state 3
+
+    1 start: pag . start
+
+    NOME  shift, and go to state 1
+
+    $default  reduce using rule 2 (start)
+
+    start      go to state 7
+    pag        go to state 3
+    cabecalho  go to state 4
+
+
+state 4
+
+    3 pag: cabecalho . '{' conteudo '}'
+
+    '{'  shift, and go to state 8
+
+
+state 5
+
+    4 cabecalho: NOME '/' . TEMPO
+
+    TEMPO  shift, and go to state 9
+
+
+state 6
+
     0 $accept: start $end .
 
     $default  accept
+
+
+state 7
+
+    1 start: pag start .
+
+    $default  reduce using rule 1 (start)
+
+
+state 8
+
+    3 pag: cabecalho '{' . conteudo '}'
+
+    $default  reduce using rule 12 (conteudo)
+
+    conteudo  go to state 10
+
+
+state 9
+
+    4 cabecalho: NOME '/' TEMPO .
+
+    $default  reduce using rule 4 (cabecalho)
+
+
+state 10
+
+    3 pag: cabecalho '{' conteudo . '}'
+    5 conteudo: conteudo . IMAGEM
+    6         | conteudo . VIDEO
+    7         | conteudo . TITULO
+    8         | conteudo . AUDIO
+    9         | conteudo . pagitens
+   10         | conteudo . PAGINICIAL
+   11         | conteudo . PAGCREDITOS
+
+    IMAGEM       shift, and go to state 11
+    VIDEO        shift, and go to state 12
+    TITULO       shift, and go to state 13
+    AUDIO        shift, and go to state 14
+    ITENS        shift, and go to state 15
+    PAGINICIAL   shift, and go to state 16
+    PAGCREDITOS  shift, and go to state 17
+    '}'          shift, and go to state 18
+
+    pagitens  go to state 19
+
+
+state 11
+
+    5 conteudo: conteudo IMAGEM .
+
+    $default  reduce using rule 5 (conteudo)
+
+
+state 12
+
+    6 conteudo: conteudo VIDEO .
+
+    $default  reduce using rule 6 (conteudo)
+
+
+state 13
+
+    7 conteudo: conteudo TITULO .
+
+    $default  reduce using rule 7 (conteudo)
+
+
+state 14
+
+    8 conteudo: conteudo AUDIO .
+
+    $default  reduce using rule 8 (conteudo)
+
+
+state 15
+
+   13 pagitens: ITENS .
+
+    $default  reduce using rule 13 (pagitens)
+
+
+state 16
+
+   10 conteudo: conteudo PAGINICIAL .
+
+    $default  reduce using rule 10 (conteudo)
+
+
+state 17
+
+   11 conteudo: conteudo PAGCREDITOS .
+
+    $default  reduce using rule 11 (conteudo)
+
+
+state 18
+
+    3 pag: cabecalho '{' conteudo '}' .
+
+    $default  reduce using rule 3 (pag)
+
+
+state 19
+
+    9 conteudo: conteudo pagitens .
+
+    $default  reduce using rule 9 (conteudo)

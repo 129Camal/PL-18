@@ -20,50 +20,46 @@
 						  BEGIN BARRA;
             			  return NOME;}
 
-<BARRA>^\/ {  yylval.barra = yytext[0];
-			  BEGIN TIME;
-			  return BAR;}
+<BARRA>^\/ 				{BEGIN TIME;
+			  			return yytext[0];}
 
 <TIME>tempo[1-9][0-9]*	{ strncpy(yylval.tempo, yytext+6, strlen(yytext+6));
-							printf("%s", yylval.tempo);
-							BEGIN CH;
-   							return TEMPO;}
+						printf("%s", yylval.tempo);
+						BEGIN CH;
+   						return TEMPO;}
 
-<CH>^\{ { yylval.chaveta = yytext[0];
-			return CHA;};
+<CH>^\{ 				{return yytext[0];};
 
 
 <*>TITULO\s.+ 			{ strncpy(yylval.atributo, yytext+7, strlen(yytext+7));
-            				printf("%s", yylval.atributo);
-            				return TITULO; };
+            			printf("%s", yylval.atributo);
+            			return TITULO; };
 
 <*>AUDIO\s.+ 			{ strncpy(yylval.atributo, yytext+6, strlen(yytext+6));
-            				printf("%s", yylval.atributo);
-            				return AUDIO; };
+            			printf("%s", yylval.atributo);
+            			return AUDIO; };
 
 <*>VIDEO\s.+ 			{ strncpy(yylval.atributo, yytext+6, strlen(yytext+6));
-            				printf("%s", yylval.atributo);
-            				return VIDEO; };
+            			printf("%s", yylval.atributo);
+            			return VIDEO; };
 
 <*>IMAGEM\s.+ 			{ strncpy(yylval.atributo, yytext+7, strlen(yytext+7));
-            				printf("%s", yylval.atributo);
-            				return IMAGEM; };
+            			printf("%s", yylval.atributo);
+            			return IMAGEM; };
 
 <*>PAGINICIAL\s.+ 		{ strncpy(yylval.atributo, yytext+11, strlen(yytext+11));
-            				printf("%s", yylval.atributo);
-            				return PAGINICIAL; };
+            			printf("%s", yylval.atributo);
+            			return PAGINICIAL; };
 
 <*>PAGCREDITOS\s.+ 		{ strncpy(yylval.atributo, yytext+12, strlen(yytext+12)); 
-							printf("%s", yylval.atributo); 
-							return PAGCREDITOS; };
+						printf("%s", yylval.atributo); 
+						return PAGCREDITOS; };
 
 <*>PAGITENS\s.+ 		{ strncpy(yylval.atributo, yytext+9, strlen(yytext+9)); 
-							printf("%s", yylval.atributo);
-							return ITENS; };
+						printf("%s", yylval.atributo);
+						return ITENS; };
 
-<*>^\} {  yylval.chaveta = yytext[0];
-			return CHA;
-		};
+<*>^\} 					{ return yytext[0]; };
 
 
 %%
