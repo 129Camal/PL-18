@@ -107,12 +107,14 @@ int main(int argc, char** argv){
   arv = g_tree_new((GCompareFunc)g_ascii_strcasecmp);
   fichInicial = fopen("html/pagInicial.html","w+"); 
   fichCredit = fopen("html/pagCredit.html","w+");
+
   printf("Cheguei 1");
   i = 0;
   yyparse();
 
   printf("Cheguei 2");
   g_tree_foreach(arv, (GTraverseFunc) pag12, arv);
+  yyparse();
 
   printf("Cheguei 3");
 }
