@@ -67,6 +67,7 @@ FILE* dot;
 %%
 
 int main(int argc, char** argv){
+	//abertura do ficheiro para criação do diagrama em dot
 	dot = fopen("dia.dot","w");
 	
 	if(argc ==2){
